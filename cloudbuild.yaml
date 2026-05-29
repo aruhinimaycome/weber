@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/reference-bee-410205/weber', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/reference-bee-410205/weber']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['rollout', 'restart', 'deployment/weber']
+    env:
+      - 'CLOUDSDK_CONTAINER_CLUSTER=arungke'
+      - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
