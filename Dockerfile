@@ -1,11 +1,21 @@
-FROM ubuntu:14.04
-MAINTAINER Docker Education Team <education@docker.com>
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q python-all python-pip 
-ADD ./webapp/requirements.txt /tmp/requirements.txt
-RUN pip install -qr /tmp/requirements.txt
-ADD ./webapp /opt/webapp/
-WORKDIR /opt/webapp
-EXPOSE 5000
-CMD ["python", "app.py"]
+FROM ubuntu:latest
+LABEL maintainer="Docker Education Team <education@docker.com>"
 
+# Install python in single layer - better caching
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
+    python3 \
+    python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/webapp
+
+# Copy requirements first - cached unless requirements change
+COPY ./webapp/requirements.txt .
+RUN pip3 install -qr requirements.txt
+
+# Copy app code last - cache busts only when code changes
+COPY ./webapp .
+
+EXPOSE 5000
+CMD ["python3", "app.py"]
