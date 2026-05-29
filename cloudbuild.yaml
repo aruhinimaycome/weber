@@ -1,21 +1,20 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/reference-bee-410205/weber', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-t'
+    - 'asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
+    - '.'
 
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/reference-bee-410205/weber']
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'push'
+    - 'asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
 
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['rollout', 'restart', 'deployment/weber']
-    env:
-      - 'CLOUDSDK_CONTAINER_CLUSTER=arungke'
-      - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
-steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/reference-bee-410205/cloud-run-source-deploy/weber/weber:$COMMIT_SHA', '.']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/reference-bee-410205/cloud-run-source-deploy/weber/weber:$COMMIT_SHA']
-
-options:
-  logging: CLOUD_LOGGING_ONLY  # ← add this
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  args:
+    - run
+    - --filename=deployment.yaml
+    - --image=asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA
+    - --cluster=weber-cluster
+    - --location=asia-south1
