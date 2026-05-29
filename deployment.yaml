@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weber
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: weber
+  template:
+    metadata:
+      labels:
+        app: weber
+    spec:
+      containers:
+      - name: weber
+        image: IMAGE_URL
+        ports:
+        - containerPort: 8080
