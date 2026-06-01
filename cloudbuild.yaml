@@ -3,20 +3,20 @@ steps:
   args:
     - 'build'
     - '-t'
-    - 'asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
+    - 'us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
     - '.'
 
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - 'push'
-    - 'asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
+    - 'us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
 
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
     - run
     - --filename=deployment.yaml
-    - --image=asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA
-    - --cluster=weber-cluster
-    - --location=asia-south1
+    - --image=us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA
+    - --cluster=autopilot-cluster-2
+    - --location=us-central1-docker.pkg.dev
 options:
   logging: CLOUD_LOGGING_ONLY
