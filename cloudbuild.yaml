@@ -18,3 +18,5 @@ steps:
     - --image=asia-south1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA
     - --cluster=weber-cluster
     - --location=asia-south1
+options:
+  logging: CLOUD_LOGGING_ONLY
