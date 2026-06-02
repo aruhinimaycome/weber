@@ -3,19 +3,19 @@ steps:
   args:
     - 'build'
     - '-t'
-    - 'us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
+    - 'us-central1-docker.pkg.dev/reference-bee-410205/arunzoroot/weber:$COMMIT_SHA'
     - '.'
 
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - 'push'
-    - 'us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA'
+    - 'us-central1-docker.pkg.dev/reference-bee-410205/arunzoroot/weber:$COMMIT_SHA'
 
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
     - run
     - --filename=deployment.yaml
-    - --image=us-central1-docker.pkg.dev/reference-bee-410205/weber-repo/weber:$COMMIT_SHA
+    - --image=us-central1-docker.pkg.dev/reference-bee-410205/arunzoroot/weber:$COMMIT_SHA
     - --cluster=autopilot-cluster-2
     - --location=us-central1-docker.pkg.dev
 options:
