@@ -11,7 +11,7 @@ steps:
     - 'push'
     - 'us-central1-docker.pkg.dev/reference-bee-410205/arunzoroot/weber:$COMMIT_SHA'
 
-name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
     - run
