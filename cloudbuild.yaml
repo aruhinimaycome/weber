@@ -14,9 +14,12 @@ steps:
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
     - run
-    - --filename=deployment.yaml
+    - deploy
+    - weber
     - --image=us-central1-docker.pkg.dev/reference-bee-410205/arunzoroot/weber:$COMMIT_SHA
-    - --cluster=autopilot-cluster-2
-    - --location=us-central1-docker.pkg.dev
+    - --region=us-central1
+    - --platform=managed
+    - --allow-unauthenticated
+
 options:
   logging: CLOUD_LOGGING_ONLY
